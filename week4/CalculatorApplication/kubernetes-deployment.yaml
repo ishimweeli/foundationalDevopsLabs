@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calculator-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: calculator-app
+  template:
+    metadata:
+      labels:
+        app: calculator-app
+    spec:
+      containers:
+        - name: calculator-app
+          image: ishimweeli0/calculator-app:latest  # Use your Docker Hub username
+          ports:
+            - containerPort: 8080  # Adjust based on your app
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: calculator-app-service
+spec:
+  selector:
+    app: calculator-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
